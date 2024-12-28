@@ -29,10 +29,17 @@
     {{-- <link href="{{ asset('vendor/quill/quill.bubble.css') }}" rel="stylesheet"> --}}
     {{-- <link href="{{ asset('vendor/remixicon/remixicon.css') }}" rel="stylesheet"> --}}
 
-    <!-- Template Main CSS File -->
-    <link href="{{ asset('css/main.css') }}" rel="stylesheet">
+    {{-- CDN --}}
+    <script src='https://code.jquery.com/jquery-3.7.0.min.js'
+        integrity='sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=' crossorigin='anonymous'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+        integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
 
-    <!-- My CSS File -->
+
+    <link href="{{ asset('css/main.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 </head>
 

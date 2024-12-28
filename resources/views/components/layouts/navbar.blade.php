@@ -16,8 +16,8 @@
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                     <div class="profile-name me-3">
-                        <span>Welcome, Ega</span>
-                        <span class="role">Administrator</span>
+                        <span>Welcome, {{ Auth()->user()->username }}</span>
+                        <span class="role">{{ Auth()->user()->role }}</span>
                     </div>
                     <div class="rounded-circle overflow-hidden " style="width: 35px; height: 35px;">
                         <img src="img/user.png" alt="Profile" class="w-100 h-100 object-fit-cover ">
@@ -27,8 +27,8 @@
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                     <li class="dropdown-header">
-                        <h6>Muhammad Ega Dermawan</h6>
-                        <span>Administrator</span>
+                        <h6>{{ Auth()->user()->name }}</h6>
+                        <span>{{ Auth()->user()->role }}</span>
                     </li>
                     <li>
                         <hr class="dropdown-divider">
