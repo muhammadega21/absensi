@@ -18,13 +18,16 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
+        'nip',
         'name',
         'username',
         'email',
         'password',
+        'tanggal_lahir',
         'qr_code',
-        'jabatan_id',
-        'role_id'
+        'role',
+        'image',
+        'unit_kerja_id'
     ];
 
     /**
@@ -48,5 +51,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function unitKerja()
+    {
+        return $this->belongsTo(UnitKerja::class);
     }
 }

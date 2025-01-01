@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Jabatan;
-use App\Models\Role;
+use App\Models\UnitKerja;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -17,53 +16,66 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
         User::create([
+            'nip' => '040821-0001',
             'name' => 'Muhammad Ega Dermawan',
             'username' => 'Ega',
-            'email' => 'dermawane988@gmail.com',
             'password' => Hash::make('password'),
+            'tanggal_lahir' => '2004-08-21',
             'qr_code' => Str::uuid(),
-            'jabatan_id' => 1,
-            'role' => 'admin'
+            'unit_kerja_id' => 1,
+            'role' => 'admin',
+            'image' => 'user.png'
         ]);
         User::create([
+            'nip' => '040822-0002',
             'name' => 'Maulana Aditya',
             'username' => 'Maulana',
-            'email' => 'maulana123@gmail.com',
             'password' => Hash::make('password'),
+            'tanggal_lahir' => '2004-08-22',
             'qr_code' => Str::uuid(),
-            'jabatan_id' => 2,
-            'role' => 'admin'
+            'unit_kerja_id' => 2,
+            'role' => 'admin',
+            'image' => 'user.png'
         ]);
         User::create([
+            'nip' => '040823-0003',
             'name' => 'Nola Mardiansyah Putri',
             'username' => 'Nola',
-            'email' => 'nola123@gmail.com',
             'password' => Hash::make('password'),
+            'tanggal_lahir' => '2004-08-23',
             'qr_code' => Str::uuid(),
-            'jabatan_id' => 3,
-            'role' => 'karyawan'
+            'unit_kerja_id' => 3,
+            'role' => 'karyawan',
+            'image' => 'user.png'
         ]);
         User::create([
+            'nip' => '040824-0004',
             'name' => 'Ofika Parsyanda',
             'username' => 'Fika',
-            'email' => 'ofika123@gmail.com',
             'password' => Hash::make('password'),
+            'tanggal_lahir' => '2004-08-24',
             'qr_code' => Str::uuid(),
-            'jabatan_id' => 3,
-            'role' => 'karyawan'
+            'unit_kerja_id' => 4,
+            'role' => 'karyawan',
+            'image' => 'user.png'
         ]);
 
-        Jabatan::create([
-            'name' => 'Direktur'
+        UnitKerja::create([
+            'name' => 'HRD',
+            'code' => 'HRD',
         ]);
-        Jabatan::create([
-            'name' => 'Wakil Direktur'
+        UnitKerja::create([
+            'name' => 'Komunikasi',
+            'code' => 'PR'
         ]);
-        Jabatan::create([
-            'name' => 'Kasir'
+        UnitKerja::create([
+            'name' => 'Penjualan',
+            'code' => 'SLS'
+        ]);
+        UnitKerja::create([
+            'name' => 'Layanan Pelanggan',
+            'code' => 'CS'
         ]);
     }
 }

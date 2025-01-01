@@ -59,19 +59,19 @@
 
                                     <div class="pt-4 pb-2">
                                         <h5 class="card-title text-center pb-0 fs-4 fw-bold">LOGIN PAGE</h5>
-                                        <p class="text-center small">Masukkan Email dan password</p>
+                                        <p class="text-center small">Masukkan NIP dan password</p>
                                     </div>
 
                                     <form class="row g-3" action="{{ url('/login') }}" method="POST">
                                         @csrf
 
                                         <div class="col-12">
-                                            <label for="email" class="form-label">Email</label>
+                                            <label for="nip" class="form-label">NIP</label>
                                             <div class="input-group has-validation">
-                                                <input type="text" name="email"
-                                                    class="form-control @error('email') is-invalid @enderror"
-                                                    id="email" placeholder="Masukkan Email" required>
-                                                @error('email')
+                                                <input type="text" name="nip"
+                                                    class="form-control @error('nip') is-invalid @enderror"
+                                                    id="nip" placeholder="Masukkan NIP" required>
+                                                @error('nip')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
                                                     </div>

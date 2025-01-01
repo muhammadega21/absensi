@@ -17,7 +17,7 @@ class LoginController extends Controller
     public function login(Request $request, User $user)
     {
         $credentials = $request->validate([
-            'email' => 'required',
+            'nip' => 'required',
             'password' => 'required',
         ]);
 
@@ -26,7 +26,7 @@ class LoginController extends Controller
             return redirect()->intended('/dashboard')->with('toastSuccess', 'Selamat Datang ' . Auth::user()->username);
         }
 
-        return back()->with('error', 'Email atau Password Salah');
+        return back()->with('error', 'NIP atau Password Salah');
     }
 
     public function logout()

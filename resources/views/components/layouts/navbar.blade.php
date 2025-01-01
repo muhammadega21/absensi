@@ -20,7 +20,8 @@
                         <span class="role">{{ Auth()->user()->role }}</span>
                     </div>
                     <div class="rounded-circle overflow-hidden " style="width: 35px; height: 35px;">
-                        <img src="img/user.png" alt="Profile" class="w-100 h-100 object-fit-cover ">
+                        <img src="{{ asset('img/user/' . Auth()->user()->image) }}" alt="Profile"
+                            class="w-100 h-100 object-fit-cover ">
                     </div>
                     <i class="bx bx-arrow-down"></i>
                 </a><!-- End Profile Iamge Icon -->
@@ -28,7 +29,7 @@
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                     <li class="dropdown-header">
                         <h6>{{ Auth()->user()->name }}</h6>
-                        <span>{{ Auth()->user()->role }}</span>
+                        <span>{{ Auth()->user()->unitKerja->name }}</span>
                     </li>
                     <li>
                         <hr class="dropdown-divider">

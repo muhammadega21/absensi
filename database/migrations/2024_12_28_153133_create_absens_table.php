@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->foreignId('absen_masuk_id');
             $table->foreignId('absen_keluar_id');
+            $table->string('absen_id');
             $table->date('tanggal');
             $table->timestamps();
         });
