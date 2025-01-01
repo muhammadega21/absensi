@@ -4,16 +4,16 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}" href="{{ url('/dashboard') }}">
+            <a class="nav-link collapsed{{ Request::is('dashboard') ? 'active' : '' }}" href="{{ url('/dashboard') }}">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
-        </li><!-- End Dashboard Nav -->
+        </li>
 
         <li class="nav-heading">Pages</li>
 
         <li class="nav-item">
-            <a class="nav-link  {{ Request::is(['petugas', 'siswa*', 'kelas']) ? 'active' : 'collapsed' }}"
+            <a class="nav-link  {{ Request::is(['unit_kerja', 'karyawan']) ? 'active' : 'collapsed' }}"
                 data-bs-target="#master-data" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-menu-button-wide"></i><span>Master Data</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
@@ -36,11 +36,12 @@
         </li><!-- End Master Data -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed {{ Request::is('absen*') ? 'active' : '' }}" href="{{ url('absen') }}">
+            <a class="nav-link collapsed{{ Request::is('absen') ? 'active' : '' }}" href="{{ url('/absen') }}">
                 <i class="bi bi-book"></i>
                 <span>Absensi</span>
             </a>
         </li>
+
 
         <li class="nav-heading">Setting</li>
 
