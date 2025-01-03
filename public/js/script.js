@@ -10,6 +10,16 @@ new DataTable("#datatable", {
     scrollX: true,
 });
 
+// flatpickr
+$(document).ready(function () {
+    flatpickr(".flatpickr"),
+        {
+            dateFormat: "Y-m-d",
+            defaultDate: "today",
+            wrap: true,
+        };
+});
+
 // Confirm Delete
 function confirm(e) {
     e.preventDefault();

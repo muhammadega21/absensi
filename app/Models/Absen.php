@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Absen extends Model
 {
     protected $fillable = [
-        'absen_id',
         'tanggal',
-        'user_id',
-        'absen_masuk_id',
-        'absen_keluar_id'
+        'status',
+        'checkin_start',
+        'checkin_over',
+        'checkout_start',
+        'checkout_over',
     ];
 }

@@ -80,8 +80,8 @@
                                                     value="{{ old('password') }}">
                                             </div>
                                             <div class="input-box col-sm-6" style="max-width: 48%">
-                                                <label for="tanggal_lahir" class="mb-2 required">Tanggal Lahir</label>
-                                                <input type="date" id="tanggal_lahir" class="form-control "
+                                                <label for="tanggal_lahir" class="mb-2 required ">Tanggal Lahir</label>
+                                                <input type="date" id="tanggal_lahir" class="form-control flatpickr"
                                                     name="tanggal_lahir" placeholder="Masukkan Tanggal Lahir"
                                                     value="{{ old('tanggal_lahir') }}">
                                             </div>
@@ -177,8 +177,9 @@
                 <div class="input-box col-sm-6" style="max-width: 48%">
                     <label for="tanggal_lahir" class="mb-2 required">Tanggal Lahir</label>
                     <input type="date" id="tanggal_lahir"
-                        class="form-control @error('tanggal_lahir') is-invalid @enderror" name="tanggal_lahir"
-                        placeholder="Masukkan Tanggal Lahir" value="{{ old('tanggal_lahir') }}">
+                        class="form-control flatpickr @error('tanggal_lahir') is-invalid @enderror"
+                        name="tanggal_lahir" placeholder="Masukkan Tanggal Lahir"
+                        value="{{ old('tanggal_lahir') }}">
                     @error('tanggal_lahir')
                         <div class="invalid-feedback">
                             {{ $message }}

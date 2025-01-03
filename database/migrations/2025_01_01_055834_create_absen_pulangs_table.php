@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('absen_keluars', function (Blueprint $table) {
+        Schema::create('absen_pulangs', function (Blueprint $table) {
             $table->id();
-            $table->time('keluar');
-            $table->boolean('status');
+            $table->foreignId('user_id');
+            $table->foreignId('absen_id');
+            $table->time('checkout');
+            $table->string('keterangan')->default('Belum Absen');
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('absen_keluars');
+        Schema::dropIfExists('absen_pulangs');
     }
 };

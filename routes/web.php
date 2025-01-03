@@ -41,6 +41,10 @@ Route::middleware('auth')->group(function () {
     // Absen
     Route::controller(AbsenController::class)->group(function () {
         Route::get('/absen', 'index');
+        Route::get('/absen/list/{id}', 'show');
+        Route::get('/absen/attendace/{id}', 'attendace');
+        Route::post('/absen/checkin/{id}', 'checkin');
+        Route::post('/absen/checkout/{id}', 'checkout');
         Route::post('/absen', 'store');
         Route::put('/absen/update/{id}', 'update');
         Route::get('/absen/delete/{id}', 'destroy');

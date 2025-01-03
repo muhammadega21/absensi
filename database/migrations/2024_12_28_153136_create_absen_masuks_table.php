@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('absen_masuks', function (Blueprint $table) {
             $table->id();
-            $table->time('masuk');
-            $table->boolean('status');
+            $table->foreignId('user_id');
+            $table->foreignId('absen_id');
+            $table->time('checkin');
+            $table->string('keterangan')->default('Belum Absen');
             $table->timestamps();
         });
     }

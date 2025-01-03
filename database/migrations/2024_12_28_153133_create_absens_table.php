@@ -12,12 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('absens', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id');
-            $table->foreignId('absen_masuk_id');
-            $table->foreignId('absen_keluar_id');
-            $table->string('absen_id');
+            $table->id()->startingValue(100);
             $table->date('tanggal');
+            $table->time('checkin_start');
+            $table->time('checkin_over');
+            $table->time('checkout_start');
+            $table->time('checkout_over');
+            $table->boolean('status');
             $table->timestamps();
         });
     }
