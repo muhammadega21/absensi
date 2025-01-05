@@ -38,6 +38,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
 
 
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
@@ -75,7 +77,7 @@
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('/vendor/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('/vendor/qrcode/qrcode.min.js') }}"></script>
-    <script src="{{ asset('/vendor/html2canvas/html2canvas.min.js') }}"></script>
+    <script src="{{ asset('/vendor/instascan/instascan.min.js') }}"></script>
     {{-- <script src="{{ asset('vendor/quill/quill.js') }}"></script> --}}
     {{-- <script src="{{ asset('vendor/tinymce/tinymce.min.js') }}"></script> --}}
     {{-- <script src="{{ asset('vendor/php-email-form/validate.js') }}"></script> --}}

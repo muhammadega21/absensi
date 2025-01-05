@@ -32,7 +32,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
-
+    <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
 
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
@@ -67,6 +67,9 @@
                         </div>
                     </div>
                 </div>
+                <div class="d-flex justify-content-center">
+                    <div id="qrcode" data-qr={{ $absen->qr_code }}></div>
+                </div>
             </div>
         </div>
     </div>
@@ -76,7 +79,7 @@
             const [hours, minutes, seconds] = timeStr.split(':').map(Number);
             return hours * 3600 + minutes * 60 + seconds;
         }
-        let now = new Date().toLocaleTimeString().replace('AM', '')
+        let now = new Date().toLocaleTimeString('id-ID').replace(/\./g, ':')
         const startTime = now;
         const endTime = "{{ $absen->checkin_over }}";
 
@@ -96,32 +99,40 @@
             secondsElement.textContent = String(seconds).padStart(2, '0');
         }
 
+        function countdownOver() {
+            hoursElement.textContent = "00";
+            minutesElement.textContent = "00"
+            secondsElement.textContent = "00"
+        }
+
+
+
         const interval = setInterval(() => {
             if (countdownTime <= 0) {
                 clearInterval(interval);
-                alert("Time's up!");
             } else {
                 updateCountdown();
                 countdownTime--;
             }
         }, 1000);
-        updateCountdown();
-    </script>
 
+        updateCountdown();
+        if (countdownTime < 0) {
+            countdownOver()
+        } else {
+            updateCountdown()
+        }
+    </script>
     <!-- Vendor JS Files -->
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
     <!-- Template Main JS File -->
-    <script src="{{ asset('js/main.js') }}">
-        < />
+    <script src="{{ asset('js/main.js') }}"></script>
 
-        <
-        !--My JS File-- >
-        <
-        script src = "{{ asset('js/script.js') }}" >
-            <
-            /> < /
-        body >
+    <!-- My JS File -->
+    <script src="{{ asset('js/script.js') }}"></script>
 
-            <
-            /html>
+
+</body>
+
+</html>

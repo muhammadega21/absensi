@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Absen;
-use App\Models\AbsenMasuk;
-use Carbon\Carbon;
+use Endroid\QrCode\Color\Color;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\RoundBlockSizeMode;
+use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class AbsenController extends Controller
 {
@@ -49,7 +54,8 @@ class AbsenController extends Controller
             'checkin_over' => $request->input('checkin_over'),
             'checkout_start' => $request->input('checkout_start'),
             'checkout_over' => $request->input('checkout_over'),
-            'status' => false
+            'status' => false,
+            'qr_code' => Str::uuid()
         ]);
 
         return redirect('/absen')->with('success', 'Berhasil menambah Absen');

@@ -13,5 +13,6 @@ class Absen extends Model
         'checkin_over',
         'checkout_start',
         'checkout_over',
+        'qr_code'
     ];
 }

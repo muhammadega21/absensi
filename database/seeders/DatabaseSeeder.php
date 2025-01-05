@@ -22,7 +22,6 @@ class DatabaseSeeder extends Seeder
             'username' => 'Ega',
             'password' => Hash::make('password'),
             'tanggal_lahir' => '2004-08-21',
-            'qr_code' => Str::uuid(),
             'unit_kerja_id' => 1,
             'role' => 'admin',
             'image' => 'user.png'
@@ -33,7 +32,6 @@ class DatabaseSeeder extends Seeder
             'username' => 'Maulana',
             'password' => Hash::make('password'),
             'tanggal_lahir' => '2004-08-22',
-            'qr_code' => Str::uuid(),
             'unit_kerja_id' => 2,
             'role' => 'admin',
             'image' => 'user.png'
@@ -44,7 +42,6 @@ class DatabaseSeeder extends Seeder
             'username' => 'Nola',
             'password' => Hash::make('password'),
             'tanggal_lahir' => '2004-08-23',
-            'qr_code' => Str::uuid(),
             'unit_kerja_id' => 3,
             'role' => 'karyawan',
             'image' => 'user.png'
@@ -55,7 +52,6 @@ class DatabaseSeeder extends Seeder
             'username' => 'Fika',
             'password' => Hash::make('password'),
             'tanggal_lahir' => '2004-08-24',
-            'qr_code' => Str::uuid(),
             'unit_kerja_id' => 4,
             'role' => 'karyawan',
             'image' => 'user.png'

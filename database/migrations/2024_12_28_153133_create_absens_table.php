@@ -19,6 +19,7 @@ return new class extends Migration
             $table->time('checkout_start');
             $table->time('checkout_over');
             $table->boolean('status');
+            $table->string('qr_code');
             $table->timestamps();
         });
     }

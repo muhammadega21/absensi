@@ -1,3 +1,36 @@
+// qrcode
+$(document).ready(function () {
+    const qr = $("#qrcode").data("qr");
+    const qrCode = new QRCodeStyling({
+        width: 300,
+        height: 300,
+        type: "svg",
+        data: qr,
+        dotsOptions: {
+            type: "rounded",
+        },
+    });
+    qrCode.append(document.getElementById("qrcode"));
+});
+
+$(document).ready(function () {
+    function onScanSuccess(decodedText, decodedResult) {
+        // handle the scanned code as you like, for example:
+        console.log(`Code matched = ${decodedText}`, decodedResult);
+    }
+
+    function onScanFailure(error) {
+        // handle scan failure, usually better to ignore and keep scanning.
+        // for example:
+        console.warn(`Code scan error = ${error}`);
+    }
+
+    let html5QrcodeScanner = new Html5QrcodeScanner("reader", {
+        fps: 10,
+        qrbos: 250,
+    });
+    html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+});
 // Data table
 new DataTable("#datatable", {
     layout: {
@@ -69,37 +102,5 @@ $(document).ready(function () {
         $("#tanggal_lahir").val(karyawan.tanggal_lahir);
         $("#unit_kerja_id").val(karyawan.unit_kerja_id);
         $("#role").val(karyawan.role);
-    });
-});
-
-// Id card
-$(document).ready(function () {
-    $("#idcard").on("show.bs.modal", function (event) {
-        const button = $(event.relatedTarget);
-        const user = button.data("karyawan");
-        $("#user_qrcode").empty();
-        new QRCode("user_qrcode").makeCode(user.qr_code);
-
-        $("#download").click(function (e) {
-            e.preventDefault();
-            html2canvas(document.getElementById("user_qrcode")).then(function (
-                canvas
-            ) {
-                const link = document.createElement("a");
-                link.download = `${user.username}_${user.nip}`; // Set the filename
-                link.href = canvas.toDataURL("image/png"); // Convert canvas to data URL
-                link.click(); // Trigger the download
-
-                // Show success alert
-                swal({
-                    title: "Success!",
-                    text: "ID Card Berhasil Didownload",
-                    icon: "success",
-                    button: "OK",
-                }).then(() => {
-                    location.reload(); // Refresh the page after alert is closed
-                });
-            });
-        });
     });
 });

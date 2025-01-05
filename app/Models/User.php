@@ -24,7 +24,6 @@ class User extends Authenticatable
         'email',
         'password',
         'tanggal_lahir',
-        'qr_code',
         'role',
         'image',
         'unit_kerja_id'

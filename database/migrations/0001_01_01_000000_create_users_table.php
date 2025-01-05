@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('username', 10);
             $table->string('password');
             $table->date('tanggal_lahir');
-            $table->string('qr_code');
             $table->enum('role', ['admin', 'karyawan']);
             $table->string('image');
             $table->rememberToken();
