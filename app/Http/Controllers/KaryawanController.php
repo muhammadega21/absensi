@@ -16,7 +16,7 @@ class KaryawanController extends Controller
     {
         return view('master-data.karyawan', [
             'title' => "Karyawan",
-            'main_page' => 'Master',
+            'main_page' => '',
             'page' => 'Karyawan',
             'datas' => User::all(),
             'unit_kerja' => UnitKerja::all(),

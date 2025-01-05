@@ -15,4 +15,13 @@ class Absen extends Model
         'checkout_over',
         'qr_code'
     ];
+
+    public function absenMasuk()
+    {
+        return $this->hasMany(AbsenMasuk::class);
+    }
+    public function absenPulang()
+    {
+        return $this->hasMany(AbsenPulang::class);
+    }
 }

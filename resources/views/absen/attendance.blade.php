@@ -45,27 +45,33 @@
             <div>
                 <div class="col-9 mx-auto">
                     <div class="text-center">
-                        <h1>Sistem Absensi Pegawai Online</h1>
-                        <h1>Sorum Yamaha Tjahaja Baru</h1>
+                        <h2>Sistem Absensi Pegawai Online</h2>
+                        <h2>Sorum Yamaha Tjahaja Baru</h2>
                     </div>
                 </div>
+
                 <div class="countdown mt-3">
                     <div class="card">
                         <div class="row text-center justify-content-center mt-2">
                             <div class="col-2">
-                                <h3 id="hours" class="display-4">00</h3>
+                                <h3 id="hours" class="display-5">00</h3>
                                 <p>Hours</p>
                             </div>
                             <div class="col-2">
-                                <h3 id="minutes" class="display-4">00</h3>
+                                <h3 id="minutes" class="display-5">00</h3>
                                 <p>Minutes</p>
                             </div>
                             <div class="col-2">
-                                <h3 id="seconds" class="display-4">00</h3>
+                                <h3 id="seconds" class="display-5">00</h3>
                                 <p>Seconds</p>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="mb-2 text-center">
+                    <h4 id="absenStatus" class="fw-bold {{ $textStatus ? 'text-danger' : '' }}">
+                        {{ $attendanceStatus }}</h4>
+                    <span>{{ $absen->tanggal }}</span>
                 </div>
                 <div class="d-flex justify-content-center">
                     <div id="qrcode" data-qr={{ $absen->qr_code }}></div>
@@ -79,11 +85,22 @@
             const [hours, minutes, seconds] = timeStr.split(':').map(Number);
             return hours * 3600 + minutes * 60 + seconds;
         }
-        let now = new Date().toLocaleTimeString('id-ID').replace(/\./g, ':')
-        const startTime = now;
-        const endTime = "{{ $absen->checkin_over }}";
 
-        let countdownTime = timeToSeconds(endTime) - timeToSeconds(startTime);
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const formattedDate = `${year}-${month}-${day}`;
+
+        const timeNow = now.toLocaleTimeString('id-ID').replace(/\./g, ':');
+
+
+
+        const date = "{{ $absen->tanggal }}";
+        const startTime = "{{ $startTime }}";
+        const endTime = "{{ $endTime }}";
+
+        let countdownTime = timeToSeconds(endTime) - timeToSeconds(timeNow);
 
         const hoursElement = document.getElementById('hours');
         const minutesElement = document.getElementById('minutes');
@@ -101,36 +118,38 @@
 
         function countdownOver() {
             hoursElement.textContent = "00";
-            minutesElement.textContent = "00"
-            secondsElement.textContent = "00"
+            minutesElement.textContent = "00";
+            secondsElement.textContent = "00";
         }
 
+        if ("{{ $absen->status }}" == 0) { // Jika status absen buka
+            if (date === formattedDate) {
+                if (timeToSeconds(timeNow) > timeToSeconds(startTime)) {
+                    if (countdownTime < 0) {
+                        countdownOver(); // Jika waktu sudah habis
+                    } else {
+                        const interval = setInterval(() => {
+                            if (countdownTime <= 0) {
+                                clearInterval(interval); // Hentikan interval jika waktu habis
+                                countdownOver();
+                            } else {
+                                updateCountdown();
+                                countdownTime--;
+                            }
+                        }, 1000);
 
-
-        const interval = setInterval(() => {
-            if (countdownTime <= 0) {
-                clearInterval(interval);
-            } else {
-                updateCountdown();
-                countdownTime--;
+                        // Perbarui tampilan awal sebelum interval dimulai
+                        updateCountdown();
+                    }
+                }
             }
-        }, 1000);
-
-        updateCountdown();
-        if (countdownTime < 0) {
-            countdownOver()
-        } else {
-            updateCountdown()
         }
     </script>
     <!-- Vendor JS Files -->
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-    <!-- Template Main JS File -->
-    <script src="{{ asset('js/main.js') }}"></script>
-
     <!-- My JS File -->
-    <script src="{{ asset('js/script.js') }}"></script>
+    <script src="{{ asset('js/attedance.js') }}"></script>
 
 
 </body>

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class AbsenMasuk extends Model
 {
@@ -11,5 +12,17 @@ class AbsenMasuk extends Model
         'user_id',
         'checkin',
         'keterangan',
+        'status'
     ];
+
+    protected $with = ['absen', 'user'];
+
+    public function absen()
+    {
+        return $this->belongsTo(Absen::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

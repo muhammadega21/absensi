@@ -57,7 +57,8 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
                     @if ($mainPage)
-                        <li class="breadcrumb-item">{{ $mainPage }}</li>
+                        <li class="breadcrumb-item"><a
+                                href="{{ url('/' . Str::lower($mainPage)) }}">{{ $mainPage }}</a></li>
                     @endif
                     <li class="breadcrumb-item active">{{ $page }}</li>
                 </ol>
@@ -77,7 +78,7 @@
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('/vendor/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('/vendor/qrcode/qrcode.min.js') }}"></script>
-    <script src="{{ asset('/vendor/instascan/instascan.min.js') }}"></script>
+    <script src="{{ asset('/vendor/scanqrcode/html5-qrcode.min.js') }}"></script>
     {{-- <script src="{{ asset('vendor/quill/quill.js') }}"></script> --}}
     {{-- <script src="{{ asset('vendor/tinymce/tinymce.min.js') }}"></script> --}}
     {{-- <script src="{{ asset('vendor/php-email-form/validate.js') }}"></script> --}}

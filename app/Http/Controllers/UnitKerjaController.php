@@ -12,7 +12,7 @@ class UnitKerjaController extends Controller
     {
         return view('master-data.unit_kerja', [
             'title' => "Unit Kerja",
-            'main_page' => 'Master',
+            'main_page' => '',
             'page' => 'Unit Kerja',
             'datas' => UnitKerja::all()
         ]);
