@@ -30,7 +30,6 @@
 
         isScanning = true;
 
-        console.log(`Hasil pemindaian: ${decodedText}`, decodedResult);
         qrcodeInput.value = decodedText;
 
         html5QrcodeScanner.clear().then(() => {
@@ -44,7 +43,7 @@
         "reader", {
             fps: 10,
             qrbox: 250,
-
-        });
+            aspectRatio: 1.0
+        }, false);
     html5QrcodeScanner.render(onScanSuccess);
 </script>

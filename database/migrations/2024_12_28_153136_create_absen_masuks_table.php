@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('absen_id');
-            $table->time('checkin');
+            $table->time('checkin')->nullable();
             $table->string('keterangan')->default('Hadir');
             $table->boolean('status');
             $table->timestamps();

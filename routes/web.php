@@ -46,6 +46,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/absen/attendace/{id}', 'attendace');
         Route::post('/absen/checkin', 'checkin')->name('checkin');
         Route::post('/absen', 'store');
+        Route::post('/absen/addListAbsen/{id}', 'storeListAbsen');
         Route::put('/absen/update/{id}', 'update');
         Route::get('/absen/delete/{id}', 'destroy');
     });

@@ -15,6 +15,7 @@ use Endroid\QrCode\RoundBlockSizeMode;
 use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -24,7 +25,6 @@ class AbsenController extends Controller
     {
         $userId = Auth::user()->id;
 
-        // Absen Masuk dan Pulang dengan filter user_id
         $absens = Absen::with([
             'absenMasuk' => function ($query) use ($userId) {
                 $query->where('user_id', $userId);
@@ -37,16 +37,15 @@ class AbsenController extends Controller
         })
             ->orWhereHas('absenPulang', function ($query) use ($userId) {
                 $query->where('user_id', $userId);
-            })
-            ->get();
+            })->latest()->get();
 
 
         return view('absen.index', [
             'title' => "Absen",
             'main_page' => '',
             'page' => 'Absen',
-            'datas' => Absen::all(),
-            'absens' => $absens
+            'datas' => Absen::latest()->get(),
+            'absens' => $absens,
         ]);
     }
 
@@ -63,6 +62,7 @@ class AbsenController extends Controller
             'main_page' => 'Absen',
             'page' => 'Absen list',
             'datas' =>  $absens,
+            'users' => User::all()
         ]);
     }
 
@@ -102,6 +102,34 @@ class AbsenController extends Controller
         return redirect('/absen')->with('success', 'Berhasil menambah Absen');
     }
 
+    public function storeListAbsen(Request $request, $id)
+    {
+        $absenMasuk = AbsenMasuk::where('user_id', $request->user_id)->first();
+        $absenPulang = AbsenPulang::where('user_id', $request->user_id)->first();
+        if ($absenMasuk && $absenPulang) {
+            return back()->with('error', 'Karyawan Sudah Mengambil Absen Masuk dan Pulang');
+        } elseif ($absenMasuk) {
+            return back()->with('error', 'Karyawan Sudah Mengambil Absen Masuk ');
+        } elseif ($absenPulang) {
+            return back()->with('error', 'Karyawan Sudah Mengambil Absen Pulang ');
+        }
+
+        AbsenMasuk::create([
+            'user_id' => $request->input('user_id'),
+            'absen_id' => $id,
+            'checkin' => $request->input('checkin'),
+            'status' => 1
+        ]);
+        AbsenPulang::create([
+            'user_id' => $request->input('user_id'),
+            'absen_id' => $id,
+            'checkout' => $request->input('checkout'),
+            'status' => 1
+        ]);
+
+        return back()->with('success', 'Berhasil menambah absen karyawan');
+    }
+
     public function attendace($id)
     {
         $absen = Absen::findorfail($id);
@@ -116,12 +144,12 @@ class AbsenController extends Controller
 
         if ($absen->tanggal > $dateNow) {
             $attendanceStatus = 'Absen Belum Dimulai';
-        } elseif ($absen->status !== 0) {
+        } elseif ($absen->status !== 0 || $absen->tanggal !== $dateNow) {
             $attendanceStatus = 'Absen Tutup';
         } elseif ($timeNow >= $absen->checkin_start && $timeNow <= $absen->checkin_over) {
-            $attendanceStatus = 'Absen Masuk (' . $absen->checkoin_start . ' - ' . $absen->checkoin_over . ')';
+            $attendanceStatus = 'Absen Masuk (' . $absen->checkin_start . ' - ' . $absen->checkin_over . ')';
         } elseif ($timeNow > $absen->checkin_over && $timeNow < $absen->checkout_start) {
-            $attendanceStatus = 'Absen Masuk Berakhir (' . $absen->checkoin_start . ' - ' . $absen->checkoin_over . ')';
+            $attendanceStatus = 'Absen Masuk Berakhir (' . $absen->checkin_start . ' - ' . $absen->checkin_over . ')';
             $textStatus = 1;
         } elseif ($timeNow >= $absen->checkout_start && $timeNow <= $absen->checkout_over) {
             $attendanceStatus = 'Absen Pulang (' . $absen->checkout_start . ' - ' . $absen->checkout_over . ')';
@@ -139,7 +167,7 @@ class AbsenController extends Controller
             'startTime' => $startTime,
             'endTime' => $endTime,
             'attendanceStatus' => $attendanceStatus,
-            'textStatus' => $textStatus
+            'textStatus' => $textStatus,
         ]);
     }
 
@@ -156,6 +184,10 @@ class AbsenController extends Controller
 
         if (Carbon::parse($absen->tanggal)->toDateString() > $dateNow) {
             return redirect('/absen')->with('error', 'Absen belum dimulai');
+        }
+
+        if (Carbon::parse($absen->tanggal)->toDateString() !== $dateNow) {
+            return redirect('/absen')->with('error', 'Di luar jam absen');
         }
 
         if ($absen->status !== 0) {
@@ -202,40 +234,116 @@ class AbsenController extends Controller
                 'status' => true
             ]);
             return redirect('/absen')->with('success', 'Berhasil absen pulang');
-        } elseif ($timeNow > $absen->checkout_over && $absen->status === 0) {
-            $existingCheckout = AbsenPulang::where('user_id', $userId)->where('absen_id', $absen->id)->first();
-            if ($existingCheckout) {
-                return redirect('/absen')->with('error', 'Anda sudah mengambil absen pulang');
-            }
-
-            AbsenPulang::create([
-                'user_id' => $userId,
-                'absen_id' => $absen->id,
-                'checkout' => $timeNow,
-                'status' => true,
-                'keterangan' => 'Terlambat'
-            ]);
-            return redirect('/absen')->with('warning', 'Terlambat mengambil absen pulang');
         }
-
         return redirect('/absen')->with('error', 'Di luar jam absen');
     }
 
     public function closeAbsen($id)
     {
-        $absen = Absen::findorfail($id);
+        $absen = Absen::where('id', $id)->first();
+        $tanggal = $absen->tanggal;
+        $usersWithoutAbsenMasuk = DB::table('users')
+            ->leftJoin('absen_masuks', function ($join) use ($tanggal) {
+                $join->on('users.id', '=', 'absen_masuks.user_id')
+                    ->whereDate('absen_masuks.created_at', '=', $tanggal);
+            })
+            ->whereNull('absen_masuks.id') // Tidak ada absen masuk
+            ->select('users.id', 'users.name', 'users.nip')
+            ->distinct()
+            ->get();
 
-        $absenMasuk = AbsenMasuk::where('absen_id', $id)->first();
-        // Cek apakah user memiliki absen pulang
-        $absenPulang = AbsenPulang::where('absen_id', $id)->get();
+        // Pengguna yang tidak memiliki absen pulang
+        $usersWithoutAbsenPulang = DB::table('users')
+            ->leftJoin('absen_pulangs', function ($join) use ($tanggal) {
+                $join->on('users.id', '=', 'absen_pulangs.user_id')
+                    ->whereDate('absen_pulangs.created_at', '=', $tanggal);
+            })
+            ->whereNull('absen_pulangs.id') // Tidak ada absen pulang
+            ->select('users.id', 'users.name', 'users.nip')
+            ->distinct()
+            ->get();
 
-        return $absenPulang;
+        // Pengguna yang tidak memiliki keduanya
+        $usersWithoutBoth = DB::table('users')
+            ->leftJoin('absen_masuks', function ($join) use ($tanggal) {
+                $join->on('users.id', '=', 'absen_masuks.user_id')
+                    ->whereDate('absen_masuks.created_at', '=', $tanggal);
+            })
+            ->leftJoin('absen_pulangs', function ($join) use ($tanggal) {
+                $join->on('users.id', '=', 'absen_pulangs.user_id')
+                    ->whereDate('absen_pulangs.created_at', '=', $tanggal);
+            })
+            ->whereNull('absen_masuks.id') // Tidak ada absen masuk
+            ->whereNull('absen_pulangs.id') // Tidak ada absen pulang
+            ->select('users.id', 'users.name', 'users.nip')
+            ->distinct()
+            ->get();
 
+        foreach ($usersWithoutBoth as $user) {
+            $this->createAbsenMasuk($user->id, $id);
+            $this->createAbsenPulang($user->id, $id);
+        }
 
+        $processedUserIds = $usersWithoutBoth->pluck('id')->toArray();
 
-        // $absen->update([
-        //     'status' => 1
-        // ]);
-        // return redirect('/absen')->with('success', 'Berhasil Menutup Absen');
+        foreach ($usersWithoutAbsenMasuk as $user) {
+            if (!in_array($user->id, $processedUserIds)) {
+                $this->createAbsenMasuk($user->id, $id);
+            }
+        }
+
+        foreach ($usersWithoutAbsenPulang as $user) {
+            if (!in_array($user->id, $processedUserIds)) {
+                $this->createAbsenPulang($user->id, $id);
+            }
+        }
+
+        $absen->update([
+            'status' => 1
+        ]);
+
+        return redirect('/absen')->with('success', 'Berhasil menutup absen');
+    }
+
+    private function createAbsenMasuk($userId, $absenID)
+    {
+        $existing = AbsenMasuk::where('user_id', $userId)
+            ->where('absen_id', $absenID)
+            ->exists();
+
+        if (!$existing) {
+            AbsenMasuk::create([
+                'user_id' => $userId,
+                'absen_id' => $absenID,
+                'checkin' => null,
+                'keterangan' => 'Tidak Hadir',
+                'status' => 0,
+            ]);
+        }
+    }
+    private function createAbsenPulang($userId, $absenID)
+    {
+        $existing = AbsenPulang::where('user_id', $userId)
+            ->where('absen_id', $absenID)
+            ->exists();
+
+        if (!$existing) {
+            AbsenPulang::create([
+                'user_id' => $userId,
+                'absen_id' => $absenID,
+                'checkout' => null,
+                'keterangan' => 'Tidak Hadir',
+                'status' => 0,
+            ]);
+        }
+    }
+
+    public function destroy(int $id)
+    {
+        $data = Absen::where('id', $id)->first();
+        AbsenMasuk::where('absen_id', $id)->delete();
+        AbsenPulang::where('absen_id', $id)->delete();
+        $data->delete();
+        return redirect('absen')->with('success', 'Berhasil menghapus absen');
     }
 }

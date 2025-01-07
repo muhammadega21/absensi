@@ -56,6 +56,16 @@ function confirmCloseAbsen(e) {
     });
 }
 
+// Select2
+$(document).ready(function () {
+    const parent = $(".select2").data("parent");
+
+    $(".select2").select2({
+        theme: "bootstrap",
+        dropdownParent: $("#" + parent),
+    });
+});
+
 // Modal Update
 $(document).ready(function () {
     $("#updateUnitKerja").on("show.bs.modal", function (event) {

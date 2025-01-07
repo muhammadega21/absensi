@@ -21,37 +21,50 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($absens as $key => $absen)
+                            @foreach ($absens as $absen)
                                 <tr>
-                                    <td>{{ $key + 1 }}</td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td class="text-nowrap">
                                         {{ Carbon\Carbon::parse($absen->tanggal)->translatedFormat('d F Y') }}
                                     </td>
-                                    @if ($absen->absenMasuk)
-                                        <td class="text-nowrap ">
-                                            {{ Carbon\Carbon::parse($absen->absenMasuk->checkin)->format('H:i') }}
-                                            <span
-                                                class="{{ $absen->absenMasuk->keterangan == 'Terlambat' ? 'text-warning' : '' }}"
-                                                style="font-size: 12px">({{ $absen->absenMasuk->keterangan }})</span>
-                                        </td>
+                                    @if ($absen->absenMasuk && $absen->absenMasuk->isNotEmpty())
+                                        @if ($absen->absenMasuk->first()->status == 1)
+                                            <td class="text-nowrap ">
+                                                {{ Carbon\Carbon::parse($absen->absenMasuk->first()->checkin)->format('H:i') }}
+                                                <span
+                                                    class="{{ $absen->absenMasuk->first()->keterangan == 'Terlambat' ? 'text-warning' : 'text-success' }}"
+                                                    style="font-size: 12px">({{ $absen->absenMasuk->first()->keterangan }})</span>
+                                            </td>
+                                        @else
+                                            <td class="text-nowrap text-danger">
+                                                Alfa
+                                            </td>
+                                        @endif
                                     @else
                                         <td class="text-nowrap text-danger">
                                             Kosong
+                                        </td>
                                     @endif
-                                    </td>
-                                    <td class="text-nowrap">
-                                        @if ($absen->absenPulang)
-                                            {{ Carbon\Carbon::parse($absen->absenPulang->checkout)->format('H:i') }}
-                                            <span
-                                                class="{{ $absen->absenPulang->keterangan == 'Terlambat' ? 'text-warning' : '' }}"
-                                                style="font-size: 12px">({{ $absen->absenPulang->keterangan }})</span>
+                                    @if ($absen->absenPulang && $absen->absenPulang->isNotEmpty())
+                                        @if ($absen->absenPulang->first()->status == 1)
+                                            <td class="text-nowrap">
+                                                {{ Carbon\Carbon::parse($absen->absenPulang->first()->checkout)->format('H:i') }}
+                                                <span
+                                                    class="{{ $absen->absenPulang->first()->keterangan == 'Terlambat' ? 'text-warning' : 'text-success' }}"
+                                                    style="font-size: 12px">({{ $absen->absenPulang->first()->keterangan }})</span>
+                                            </td>
                                         @else
-                                            Kosong
+                                            <td class="text-nowrap text-danger">
+                                                Alfa
+                                            </td>
                                         @endif
-                                    </td>
+                                    @else
+                                        <td class="text-nowrap text-danger">
+                                            Kosong
+                                        </td>
+                                    @endif
                                 </tr>
-                            @empty
-                            @endforelse
+                            @endforeach
 
 
                         </tbody>

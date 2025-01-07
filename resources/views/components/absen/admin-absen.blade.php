@@ -4,11 +4,17 @@
             <div class="card-body">
                 <div class="d-flex align-items-center justify-content-between mt-2">
                     <h5 class="card-title">Data Absen</h5>
-                    <div class="btn-action">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAbsen">
+                    <div class="btn-action d-flex gap-1">
+                        <button type="button" class="btn btn-warning d-flex align-items-center gap-1"
+                            data-bs-toggle="modal" data-bs-target="#scanAbsen">
+                            Scan <i class='bx bx-scan'></i>
+                        </button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#addAbsen">
                             Tambah <span class="fw-semibold">+</span>
                         </button>
                     </div>
+                    <x-absen.scan-absen></x-absen.scan-absen>
                 </div>
                 <table id="datatable" class="table">
                     <thead>
@@ -57,7 +63,7 @@
                                             data-unit_kerja="{{ $data }}">
                                             <span class="fw-semibold"><i class="bx bxs-edit text-warning"></i></span>
                                         </button>
-                                        <a href="{{ url('unit_kerja/delete/' . $data->id) }}"
+                                        <a href="{{ url('absen/delete/' . $data->id) }}"
                                             class="badge border-danger border" onclick="confirm(event)"><i
                                                 class='bx bxs-trash text-danger'></i></a>
                                         <a href="{{ url('absen/list/' . $data->id) }}"
@@ -171,6 +177,8 @@
             </div>
         </div>
     </div>
+
+
 </x-modal>
 {{-- Modal Add --}}
 

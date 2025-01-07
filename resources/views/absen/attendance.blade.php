@@ -71,8 +71,9 @@
                 <div class="mb-2 text-center">
                     <h4 id="absenStatus" class="fw-bold {{ $textStatus ? 'text-danger' : '' }}">
                         {{ $attendanceStatus }}</h4>
-                    <span>{{ $absen->tanggal }}</span>
                 </div>
+                <button class="btn btn-sm btn-primary mx-auto d-block mb-3" data-date={{ $absen->tanggal }}
+                    id="absenDownload">Download</button>
                 <div class="d-flex justify-content-center">
                     <div id="qrcode" data-qr={{ $absen->qr_code }}></div>
                 </div>

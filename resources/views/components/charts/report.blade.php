@@ -9,14 +9,14 @@
                      <h6>Filter</h6>
                  </li>
 
-                 <li><a class="dropdown-item" href="#">Today</a></li>
+                 <li><a class="dropdown-item" href="#">This Week</a></li>
                  <li><a class="dropdown-item" href="#">This Month</a></li>
                  <li><a class="dropdown-item" href="#">This Year</a></li>
              </ul>
          </div>
 
          <div class="card-body">
-             <h5 class="card-title">Reports <span>/Today</span></h5>
+             <h5 class="card-title">Reports <span>/This Week</span></h5>
 
              <!-- Line Chart -->
              <div id="reportsChart"></div>
@@ -28,12 +28,9 @@
                                  name: "Hadir",
                                  data: [31, 40, 28, 51, 42, 82, 56],
                              },
+
                              {
-                                 name: "Terlambat",
-                                 data: [11, 32, 45, 32, 34, 52, 41],
-                             },
-                             {
-                                 name: "Izin",
+                                 name: "Alfa",
                                  data: [15, 11, 32, 18, 9, 24, 11],
                              },
                          ],
@@ -47,7 +44,7 @@
                          markers: {
                              size: 4,
                          },
-                         colors: ["#2eca6a", "#ff771d", "#f14141"],
+                         colors: ["#2eca6a", "#f14141"],
                          fill: {
                              type: "gradient",
                              gradient: {
@@ -65,20 +62,20 @@
                              width: 2,
                          },
                          xaxis: {
-                             type: "datetime",
+                             type: "date",
                              categories: [
-                                 "2018-09-19T00:00:00.000Z",
-                                 "2018-09-19T01:30:00.000Z",
-                                 "2018-09-19T02:30:00.000Z",
-                                 "2018-09-19T03:30:00.000Z",
-                                 "2018-09-19T04:30:00.000Z",
-                                 "2018-09-19T05:30:00.000Z",
-                                 "2018-09-19T06:30:00.000Z",
+                                 "2018-09-19",
+                                 "2018-09-19",
+                                 "2018-09-19",
+                                 "2018-09-19",
+                                 "2018-09-19",
+                                 "2018-09-19",
+                                 "2018-09-19",
                              ],
                          },
                          tooltip: {
                              x: {
-                                 format: "dd/MM/yy HH:mm",
+                                 format: "dd/MM/yy",
                              },
                          },
                      }).render();
