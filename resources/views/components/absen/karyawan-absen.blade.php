@@ -32,7 +32,7 @@
                                             <td class="text-nowrap ">
                                                 {{ Carbon\Carbon::parse($absen->absenMasuk->first()->checkin)->format('H:i') }}
                                                 <span
-                                                    class="{{ $absen->absenMasuk->first()->keterangan == 'Terlambat' ? 'text-warning' : 'text-success' }}"
+                                                    class="{{ $absen->absenMasuk->first()->keterangan == 'Terlambat' || $absen->absenMasuk->first()->keterangan == 'Izin' ? 'text-warning' : 'text-success' }}"
                                                     style="font-size: 12px">({{ $absen->absenMasuk->first()->keterangan }})</span>
                                             </td>
                                         @else
@@ -41,7 +41,7 @@
                                             </td>
                                         @endif
                                     @else
-                                        <td class="text-nowrap text-danger">
+                                        <td class="text-nowrap text-secondary">
                                             Kosong
                                         </td>
                                     @endif
@@ -50,7 +50,7 @@
                                             <td class="text-nowrap">
                                                 {{ Carbon\Carbon::parse($absen->absenPulang->first()->checkout)->format('H:i') }}
                                                 <span
-                                                    class="{{ $absen->absenPulang->first()->keterangan == 'Terlambat' ? 'text-warning' : 'text-success' }}"
+                                                    class="{{ $absen->absenPulang->first()->keterangan == 'Terlambat' || $absen->absenPulang->first()->keterangan == 'Izin' ? 'text-warning' : 'text-success' }}"
                                                     style="font-size: 12px">({{ $absen->absenPulang->first()->keterangan }})</span>
                                             </td>
                                         @else
@@ -59,7 +59,7 @@
                                             </td>
                                         @endif
                                     @else
-                                        <td class="text-nowrap text-danger">
+                                        <td class="text-nowrap text-secondary">
                                             Kosong
                                         </td>
                                     @endif

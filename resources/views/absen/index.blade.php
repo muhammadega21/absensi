@@ -1,7 +1,7 @@
 <x-layouts.main :title="$title" :mainPage="$main_page" :page="$page">
 
     @can('admin')
-        <x-absen.admin-absen :datas="$datas"></x-absen.admin-absen>
+        <x-absen.admin-absen :absens="$absens" :datas="$datas"></x-absen.admin-absen>
     @endcan
     @can('karyawan')
         <x-absen.karyawan-absen :absens="$absens"></x-absen.karyawan-absen>

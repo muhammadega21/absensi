@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/absen', 'store');
         Route::post('/absen/addListAbsen/{id}', 'storeListAbsen');
         Route::put('/absen/update/{id}', 'update');
+        Route::get('/absen/deleteListAbsen/{id}', 'destroyListAbsen');
         Route::get('/absen/delete/{id}', 'destroy');
     });
 });

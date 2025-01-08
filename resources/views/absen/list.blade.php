@@ -49,17 +49,17 @@
                                                         @if ($masuk->checkin)
                                                             <td>{{ Carbon\Carbon::parse($masuk->checkin)->format('H:i') }}
                                                                 <span
-                                                                    class="{{ $masuk->keterangan == 'Terlambat' ? 'text-warning' : ($masuk->status == 0 ? 'text-danger' : 'text-success') }}"
+                                                                    class="{{ $masuk->keterangan == 'Terlambat' || $masuk->keterangan == 'Izin' ? 'text-warning' : ($masuk->status == 0 ? 'text-danger' : 'text-success') }}"
                                                                     style="font-size: 12px">({{ $masuk->keterangan }})</span>
                                                             </td>
                                                         @else
-                                                            <td class="text-nowrap text-danger">Kosong</td>
+                                                            <td class="text-nowrap text-secondary">Kosong</td>
                                                         @endif
                                                     @else
                                                         <td class="text-nowrap text-danger">Alfa</td>
                                                     @endif
                                                 @else
-                                                    <td class="text-nowrap text-danger">Kosong</td>
+                                                    <td class="text-nowrap text-secondary">Kosong</td>
                                                 @endif
                                                 @if ($pulang)
                                                     @if ($pulang->status == 1)
@@ -67,21 +67,21 @@
                                                             <td>
                                                                 {{ Carbon\Carbon::parse($pulang->checkout)->format('H:i') }}
                                                                 <span
-                                                                    class=" {{ $pulang->keterangan == 'Terlambat' ? 'text-warning' : ($pulang->status == 0 ? 'text-danger' : 'text-success') }}"
+                                                                    class=" {{ $pulang->keterangan == 'Terlambat' || $pulang->keterangan == 'Izin' ? 'text-warning' : ($pulang->status == 0 ? 'text-danger' : 'text-success') }}"
                                                                     style="font-size: 12px">({{ $pulang->keterangan }})</span>
                                                             </td>
                                                         @else
-                                                            <td class="text-nowrap text-danger">Kosong</td>
+                                                            <td class="text-nowrap text-secondary">Kosong</td>
                                                         @endif
                                                     @else
                                                         <td class="text-nowrap text-danger">Alfa</td>
                                                     @endif
                                                 @else
-                                                    <td class="text-nowrap text-danger">Kosong</td>
+                                                    <td class="text-nowrap text-secondary">Kosong</td>
                                                 @endif
                                                 <td class="text-nowrap">
                                                     <div class="d-flex gap-1">
-                                                        <a href="{{ url('absen/delete/' . $masuk->absen->id) }}"
+                                                        <a href="{{ url('absen/deleteListAbsen/' . $masuk->user_id) }}"
                                                             class="badge border-danger border" onclick="confirm(event)"><i
                                                                 class='bx bxs-trash text-danger'></i></a>
                                                         <button type="button" class="badge bg-light border-warning border"
@@ -94,7 +94,8 @@
                                                 </td>
                                             </tr>
                                         @endforeach
-                                    @else
+                                    @endif
+                                    @if ($data->absenPulang)
                                         @foreach ($data->absenPulang as $pulang)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
@@ -113,38 +114,38 @@
                                                             <td>
                                                                 {{ Carbon\Carbon::parse($masuk->checkin)->format('H:i') }}
                                                                 <span
-                                                                    class="{{ $masuk->keterangan == 'Terlambat' ? 'text-warning' : 'text-success' }}"
+                                                                    class="{{ $masuk->keterangan == 'Terlambat' || $masuk->keterangan == 'Izin' ? 'text-warning' : 'text-success' }}"
                                                                     style="font-size: 12px">({{ $masuk->keterangan }})</span>
                                                             </td>
                                                         @else
-                                                            <td class="text-nowrap text-danger">Kosong</td>
+                                                            <td class="text-nowrap text-secondary">Kosong</td>
                                                         @endif
                                                     @else
                                                         <td class="text-nowrap text-danger">Alfa</td>
                                                     @endif
                                                 @else
-                                                    <td class="text-nowrap text-danger">Kosong</td>
+                                                    <td class="text-nowrap text-secondary">Kosong</td>
                                                 @endif
                                                 @if ($pulang)
                                                     @if ($pulang->status == 1)
                                                         @if ($pulang->checkout)
                                                             <td>{{ Carbon\Carbon::parse($pulang->checkout)->format('H:i') }}
                                                                 <span
-                                                                    class="{{ $pulang->keterangan == 'Terlambat' ? 'text-warning' : 'text-success' }}"
+                                                                    class="{{ $pulang->keterangan == 'Terlambat' || $pulang->keterangan == 'Izin' ? 'text-warning' : 'text-success' }}"
                                                                     style="font-size: 12px">({{ $pulang->keterangan }})</span>
                                                             </td>
                                                         @else
-                                                            <td class="text-nowrap text-danger">Kosong</td>
+                                                            <td class="text-nowrap text-secondary">Kosong</td>
                                                         @endif
                                                     @else
                                                         <td class="text-nowrap text-danger">Alfa</td>
                                                     @endif
                                                 @else
-                                                    <td class="text-nowrap text-danger">Kosong</td>
+                                                    <td class="text-nowrap text-secondary">Kosong</td>
                                                 @endif
                                                 <td class="text-nowrap">
                                                     <div class="d-flex gap-1">
-                                                        <a href="{{ url('absen/delete/' . $pulang->absen->id) }}"
+                                                        <a href="{{ url('absen/deleteListAbsen/' . $pulang->user_id) }}"
                                                             class="badge border-danger border" onclick="confirm(event)"><i
                                                                 class='bx bxs-trash text-danger'></i></a>
                                                         <button type="button" class="badge bg-light border-warning border"
@@ -191,12 +192,12 @@
                     </div>
                     <div class="input-box col-sm-6" style="max-width: 48%">
                         <label for="keterangan" class="mb-2 required">Keterangan</label>
-                        <select id="role" name="role" class="form-select">
+                        <select id="keterangan" name="keterangan" class="form-select">
                             @php
-                                $roles = ['Hadir', 'Terlambat', 'Izin'];
+                                $keterangan = ['Hadir', 'Terlambat', 'Izin'];
                             @endphp
-                            @foreach ($roles as $item)
-                                <option value="{{ $item }}" {{ old('role') == $item ? 'selected' : '' }}>
+                            @foreach ($keterangan as $item)
+                                <option value="{{ $item }}" {{ old('keterangan') == $item ? 'selected' : '' }}>
                                     {{ $item }}</option>
                             @endforeach
                         </select>
@@ -207,7 +208,8 @@
                     <div class="input-box col-sm-6" style="max-width: 48%">
                         <label for="checkin" class="mb-2 required">Jam Masuk (Checkin)</label>
                         <input type="time" id="checkin" class="form-control  @error('checkin') is-invalid @enderror"
-                            name="checkin" placeholder="Masukkan Jam Masuk" value="{{ old('checkin') }}">
+                            name="checkin" placeholder="Masukkan Jam Masuk"
+                            value="{{ old('checkin', Carbon\Carbon::now('Asia/Jakarta')->format('H:i')) }}">
                         @error('checkin')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -217,7 +219,8 @@
                     <div class="input-box col-sm-6" style="max-width: 48%">
                         <label for="checkout" class="mb-2 required">Jam Pulang (Checkout)</label>
                         <input type="time" id="checkout" class="form-control @error('checkout') is-invalid @enderror"
-                            name="checkout" placeholder="Masukkan Jam Pulang" value="{{ old('checkout') }}">
+                            name="checkout" placeholder="Masukkan Jam Pulang"
+                            value="{{ old('checkout', Carbon\Carbon::now('Asia/Jakarta')->format('H:i')) }}">
                         @error('checkout')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -230,11 +233,11 @@
         {{-- Modal Add --}}
 
         {{-- Modal Error --}}
-        @if (session('addAbsen'))
+        @if (session('addListAbsen'))
             <script>
-                toastr.error("{{ Session::get('addAbsen') }}");
+                toastr.error("{{ Session::get('addListAbsen') }}");
                 $(document).ready(function() {
-                    $('#addAbsen').modal('show');
+                    $('#addListAbsen').modal('show');
                 });
             </script>
         @endif

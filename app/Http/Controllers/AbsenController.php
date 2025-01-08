@@ -114,16 +114,30 @@ class AbsenController extends Controller
             return back()->with('error', 'Karyawan Sudah Mengambil Absen Pulang ');
         }
 
+        $validator = Validator::make($request->all(), [
+            'checkin' => 'required',
+            'checkout' => 'required',
+        ], [
+            'checkin.required' => 'Jam Masuk Tidak Boleh Kosong!',
+            'checkout.required' => 'Jam Pulang Tidak Boleh Kosong!',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput()->with('addListAbsen', 'Gagal Menambah Absen Karyawan');
+        }
+
         AbsenMasuk::create([
             'user_id' => $request->input('user_id'),
             'absen_id' => $id,
             'checkin' => $request->input('checkin'),
+            'keterangan' => $request->input('keterangan'),
             'status' => 1
         ]);
         AbsenPulang::create([
             'user_id' => $request->input('user_id'),
             'absen_id' => $id,
             'checkout' => $request->input('checkout'),
+            'keterangan' => $request->input('keterangan'),
             'status' => 1
         ]);
 
@@ -336,6 +350,24 @@ class AbsenController extends Controller
                 'status' => 0,
             ]);
         }
+    }
+
+    public function destroyListAbsen(int $id)
+    {
+        $absenMasuk = AbsenMasuk::where('user_id', $id)->first();
+        $absenPulang = AbsenPulang::where('user_id', $id)->first();
+        if ($absenMasuk && $absenPulang) {
+            $absenMasuk->delete();
+            $absenPulang->delete();
+        } elseif ($absenMasuk) {
+            $absenMasuk->delete();
+        } elseif ($absenPulang) {
+            $absenPulang->delete();
+        } else {
+            return back()->with('error', 'Gagal menghapus absen karyawan');
+        }
+
+        return back()->with('success', 'Berhasil menghapus absen karyawan');
     }
 
     public function destroy(int $id)

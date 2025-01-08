@@ -1,10 +1,15 @@
 <div class="row">
     <div class="col-lg">
         <div class="card">
+
             <div class="card-body">
                 <div class="d-flex align-items-center justify-content-between mt-2">
                     <h5 class="card-title">Data Absen</h5>
-                    <div class="btn-action d-flex gap-1">
+                    <div class="btn-action d-flex gap-2">
+                        <button type="button" class="btn btn-secondary d-flex align-items-center gap-1"
+                            data-bs-toggle="modal" data-bs-target="#selfabsent">
+                            Self-absent <i class='bx bi-book'></i>
+                        </button>
                         <button type="button" class="btn btn-warning d-flex align-items-center gap-1"
                             data-bs-toggle="modal" data-bs-target="#scanAbsen">
                             Scan <i class='bx bx-scan'></i>
@@ -13,7 +18,9 @@
                             data-bs-target="#addAbsen">
                             Tambah <span class="fw-semibold">+</span>
                         </button>
+
                     </div>
+                    <x-absen.admin-self-absen :absens="$absens"></x-absen.admin-self-absen>
                     <x-absen.scan-absen></x-absen.scan-absen>
                 </div>
                 <table id="datatable" class="table">
@@ -105,11 +112,14 @@
                         @endforeach
 
                     </tbody>
+
+
                 </table>
             </div>
         </div>
     </div>
 </div>
+
 
 {{-- Modal Add --}}
 <x-modal modalTitle="Tambah Absen" modalID="addAbsen" btn="Tambah" action="{{ url('absen') }}" method="POST"
@@ -180,7 +190,9 @@
 
 
 </x-modal>
+
 {{-- Modal Add --}}
+
 
 {{-- Modal Error --}}
 @if (session('addAbsen'))
