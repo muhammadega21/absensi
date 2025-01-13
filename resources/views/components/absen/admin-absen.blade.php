@@ -6,10 +6,10 @@
                 <div class="d-flex align-items-center justify-content-between mt-2">
                     <h5 class="card-title">Data Absen</h5>
                     <div class="btn-action d-flex gap-2">
-                        <button type="button" class="btn btn-secondary d-flex align-items-center gap-1"
+                        {{-- <button type="button" class="btn btn-secondary d-flex align-items-center gap-1"
                             data-bs-toggle="modal" data-bs-target="#selfabsent">
                             Self-absent <i class='bx bi-book'></i>
-                        </button>
+                        </button> --}}
                         <button type="button" class="btn btn-warning d-flex align-items-center gap-1"
                             data-bs-toggle="modal" data-bs-target="#scanAbsen">
                             Scan <i class='bx bx-scan'></i>
@@ -20,7 +20,7 @@
                         </button>
 
                     </div>
-                    <x-absen.admin-self-absen :absens="$absens"></x-absen.admin-self-absen>
+                    {{-- <x-absen.admin-self-absen :absens="$absens"></x-absen.admin-self-absen> --}}
                     <x-absen.scan-absen></x-absen.scan-absen>
                 </div>
                 <table id="datatable" class="table">
@@ -55,9 +55,9 @@
                                             class="btn btn-sm btn-warning" style="font-size: 12px">Tutup</button>
                                     </td>
                                 @else
-                                    <td class="text-nowrap"><a href="{{ url('absen/close/' . $data->id) }}"
-                                            class="btn btn-primary btn-sm" style="font-size: 12px"
-                                            onclick="confirmCloseAbsen(event)">Buka</a>
+                                    <td class="text-nowrap">
+                                        <a href="{{ url('absen/close/' . $data->id) }}" class="btn btn-primary btn-sm"
+                                            style="font-size: 12px" onclick="confirmCloseAbsen(event)">Buka</a>
                                     </td>
                                 @endif
                                 <td class="text-nowrap">
@@ -143,7 +143,7 @@
                 <label for="checkin_start" class="mb-2 required">Absen Masuk (Mulai)</label>
                 <input type="time" id="checkin_start"
                     class="form-control  @error('checkin_start') is-invalid @enderror" name="checkin_start"
-                    placeholder="Masukkan Jam Mulai" value="{{ old('checkin_start', '08:00') }}">
+                    placeholder="Masukkan Jam Mulai" value="{{ old('checkin_start', '07:30') }}">
                 @error('checkin_start')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -178,7 +178,7 @@
                 <label for="checkout_over" class="mb-2 required">Absen Pulang (Berakhir)</label>
                 <input type="time" id="checkout_over"
                     class="form-control @error('checkout_over') is-invalid @enderror" name="checkout_over"
-                    placeholder="Masukkan Jam Mulai" value="{{ old('checkout_over', '17:00') }}">
+                    placeholder="Masukkan Jam Mulai" value="{{ old('checkout_over', '18:00') }}">
                 @error('checkout_over')
                     <div class="invalid-feedback">
                         {{ $message }}

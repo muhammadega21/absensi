@@ -31,7 +31,7 @@
                                         $tanggal = $data->first()->tanggal;
                                         $absenID = $data->id;
                                     @endphp
-                                    @if ($data->absenMasuk)
+                                    @if ($data->absenMasuk->isNotEmpty())
                                         @foreach ($data->absenMasuk as $masuk)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
@@ -94,8 +94,7 @@
                                                 </td>
                                             </tr>
                                         @endforeach
-                                    @endif
-                                    @if ($data->absenPulang)
+                                    @elseif ($data->absenPulang)
                                         @foreach ($data->absenPulang as $pulang)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>

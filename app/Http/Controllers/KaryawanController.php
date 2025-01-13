@@ -87,7 +87,7 @@ class KaryawanController extends Controller
 
     public function update(Request $request, int $id)
     {
-        $data = User::findOrFail($id);
+        $user = User::findOrFail($id);
 
         $rules = [
             'name' => 'required|max:50',
@@ -119,13 +119,20 @@ class KaryawanController extends Controller
             return redirect()->back()->withErrors($validator)->withInput()->with('updateKaryawan', 'Gagal Update Karyawan');
         }
 
-        // image
+        $image = $user->image;
+
         if ($request->hasFile('image')) {
+            if ($user->image && $user->image !== 'user.png') {
+                $oldImagePath = public_path('img/user/' . $user->image);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+
             $file = $request->file('image');
             $image = time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('img/user'), $image);
-        } else {
-            $image = $data->image;
+            $user->image = $image;
         }
 
         $input = [
@@ -141,7 +148,7 @@ class KaryawanController extends Controller
             $input['password'] = $request->input('password');
         }
 
-        $data->update($input);
+        $user->update($input);
 
         return redirect('/karyawan')->with('success', 'Berhasil Update Karyawan');
     }

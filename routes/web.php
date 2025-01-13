@@ -4,6 +4,7 @@ use App\Http\Controllers\AbsenController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UnitKerjaController;
 use Illuminate\Support\Facades\Route;
 
@@ -50,5 +51,12 @@ Route::middleware('auth')->group(function () {
         Route::put('/absen/update/{id}', 'update');
         Route::get('/absen/deleteListAbsen/{id}', 'destroyListAbsen');
         Route::get('/absen/delete/{id}', 'destroy');
+    });
+
+    // Profile
+    Route::controller(ProfileController::class)->group(function () {
+        Route::get('/profile', 'index');
+        Route::put('/profile/update', 'update');
+        Route::put('/profile/change_password', 'changePassword')->middleware('auth');
     });
 });

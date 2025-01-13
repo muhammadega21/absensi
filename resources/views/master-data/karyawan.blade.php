@@ -34,10 +34,6 @@
                                     <td class="text-nowrap">{{ $data->role }}</td>
                                     <td class="text-nowrap">
                                         <div class="d-flex gap-1">
-                                            <button type="button" class="badge bg-light border-primary border"
-                                                data-bs-toggle="modal" data-bs-target="#idcard"
-                                                data-karyawan="{{ $data }}"><i
-                                                    class='bx bx-show text-primary'></i></button>
                                             <a href="{{ url('karyawan/delete/' . $data->id) }}"
                                                 class="badge border-danger border" onclick="confirm(event)"><i
                                                     class='bx bxs-trash text-danger'></i></a>
@@ -122,10 +118,6 @@
                                 </x-modal>
 
                                 {{-- modal update --}}
-
-                                {{-- Modal Idcard --}}
-                                <x-idcard></x-idcard>
-                                {{-- Modal Idcard --}}
                             @endforeach
 
                         </tbody>

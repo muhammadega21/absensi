@@ -99,3 +99,15 @@ $(document).ready(function () {
         $("#role").val(karyawan.role);
     });
 });
+
+// preview image
+function previewImage() {
+    const image = document.querySelector("#inputImage");
+    const preview = document.querySelector("#profilePreview");
+    const fileReader = new FileReader();
+
+    fileReader.readAsDataURL(image.files[0]);
+    fileReader.onload = function (e) {
+        preview.src = e.target.result;
+    };
+}

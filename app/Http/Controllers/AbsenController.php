@@ -293,6 +293,7 @@ class AbsenController extends Controller
             ->distinct()
             ->get();
 
+
         foreach ($usersWithoutBoth as $user) {
             $this->createAbsenMasuk($user->id, $id);
             $this->createAbsenPulang($user->id, $id);
