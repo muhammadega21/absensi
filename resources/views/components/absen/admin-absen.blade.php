@@ -6,10 +6,6 @@
                 <div class="d-flex align-items-center justify-content-between mt-2">
                     <h5 class="card-title">Data Absen</h5>
                     <div class="btn-action d-flex gap-2">
-                        {{-- <button type="button" class="btn btn-secondary d-flex align-items-center gap-1"
-                            data-bs-toggle="modal" data-bs-target="#selfabsent">
-                            Self-absent <i class='bx bi-book'></i>
-                        </button> --}}
                         <button type="button" class="btn btn-warning d-flex align-items-center gap-1"
                             data-bs-toggle="modal" data-bs-target="#scanAbsen">
                             Scan <i class='bx bx-scan'></i>
@@ -20,7 +16,6 @@
                         </button>
 
                     </div>
-                    {{-- <x-absen.admin-self-absen :absens="$absens"></x-absen.admin-self-absen> --}}
                     <x-absen.scan-absen></x-absen.scan-absen>
                 </div>
                 <table id="datatable" class="table">
@@ -76,6 +71,9 @@
                                         <a href="{{ url('absen/list/' . $data->id) }}"
                                             class="badge border-success border"><i
                                                 class='bx bx-list-ul text-success'></i></a>
+                                        <a href="{{ url('/absen/report_absen/' . $data->id) }}"
+                                            class="badge border-secondary border"><i
+                                                class='bx bxs-file-pdf text-secondary'></i></a>
 
                                     </div>
                                 </td>

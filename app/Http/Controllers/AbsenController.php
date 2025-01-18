@@ -6,13 +6,8 @@ use App\Models\Absen;
 use App\Models\AbsenMasuk;
 use App\Models\AbsenPulang;
 use App\Models\User;
+use PDF;
 use Carbon\Carbon;
-use Endroid\QrCode\Color\Color;
-use Endroid\QrCode\Encoding\Encoding;
-use Endroid\QrCode\ErrorCorrectionLevel;
-use Endroid\QrCode\QrCode;
-use Endroid\QrCode\RoundBlockSizeMode;
-use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -256,6 +251,7 @@ class AbsenController extends Controller
     {
         $absen = Absen::where('id', $id)->first();
         $tanggal = $absen->tanggal;
+
         $usersWithoutAbsenMasuk = DB::table('users')
             ->leftJoin('absen_masuks', function ($join) use ($tanggal) {
                 $join->on('users.id', '=', 'absen_masuks.user_id')
@@ -292,6 +288,7 @@ class AbsenController extends Controller
             ->select('users.id', 'users.name', 'users.nip')
             ->distinct()
             ->get();
+
 
 
         foreach ($usersWithoutBoth as $user) {
@@ -378,5 +375,35 @@ class AbsenController extends Controller
         AbsenPulang::where('absen_id', $id)->delete();
         $data->delete();
         return redirect('absen')->with('success', 'Berhasil menghapus absen');
+    }
+
+    public function report(int $id)
+    {
+        // Ambil data absen berdasarkan $id
+        $absens = Absen::where('id', $id)->get();
+        if ($absens->isEmpty()) {
+            return abort(404);
+        }
+
+        $admin = Auth::user();
+        if ($admin->role == 'admin') {
+            $name = $admin->name;
+        } else {
+            $name = 'User name not found';
+        }
+
+
+        // Kirim data ke view
+        $data = [
+            'title' => 'Download PDF',
+            'date' => $absens->first()->tanggal,
+            'datas' => $absens,
+            'admin' => $name
+        ];
+
+        $pdf = PDF::loadView('absen/reportAbsen', $data);
+        // Unduh atau tampilkan PDF
+        return $pdf->download('laporan_absen_' . $absens->first()->tanggal . '.pdf');
+        // return view('absen.reportAbsen', $data);
     }
 }

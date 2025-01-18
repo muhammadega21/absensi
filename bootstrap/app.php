@@ -13,6 +13,9 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->append(ForceToHTTPS::class);
+        $middleware->alias([
+            'PDFBarryvdh\DomPDF\Facade::class'
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

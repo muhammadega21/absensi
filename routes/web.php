@@ -51,6 +51,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/absen/update/{id}', 'update');
         Route::get('/absen/deleteListAbsen/{id}', 'destroyListAbsen');
         Route::get('/absen/delete/{id}', 'destroy');
+        Route::get('/absen/report_absen/{id}', 'report');
     });
 
     // Profile

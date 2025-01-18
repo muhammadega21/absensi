@@ -94,7 +94,7 @@ class DatabaseSeeder extends Seeder
             ]
         ];
 
-        $tanggal = collect(range(0, 12))
+        $tanggal = collect(range(0, 14))
             ->map(fn($day) => Carbon::create(2025, 1, 1)->addDays($day)->format('Y-m-d'))
             ->toArray();
 

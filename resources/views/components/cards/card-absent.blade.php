@@ -10,7 +10,7 @@
                     <i class="bi bi-person "></i>
                 </div>
                 <div class="card-desc ps-3">
-                    <h6>{{ $absen->count() }}</h6>
+                    <h6>{{ $absen }}</h6>
                     <span class="small pt-1 fw-bold">{{ $slot }}</span>
                 </div>
             </div>

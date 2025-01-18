@@ -6,30 +6,31 @@
     @endif
 
     @php
-        $today = Carbon\Carbon::now()->format('Y-m-d');
+        $today = \Carbon\Carbon::now()->format('Y-m-d');
+        $absensi = $absen->where('tanggal', $today)->first();
     @endphp
 
-    <x-cards.card-absent :absen="$absen->where('tanggal', $today)->first()->absenMasuk->where('keterangan', 'Hadir')" title='Absen Masuk' classCard='present-card'>
+    <x-cards.card-absent :absen="$absensi != null ? $absensi->absenMasuk->where('keterangan', 'Hadir')->count() : '0'" title='Absen Masuk' classCard='present-card'>
         Hadir
     </x-cards.card-absent>
 
-    <x-cards.card-absent :absen="$absen->where('tanggal', $today)->first()->absenMasuk->where('keterangan', 'Izin')" title='Absen Masuk' classCard='late-card'>
+    <x-cards.card-absent :absen="$absensi != null ? $absensi->absenMasuk->where('keterangan', 'Izin')->count() : '0'" title='Izin' classCard='late-card'>
         Izin
     </x-cards.card-absent>
 
-    <x-cards.card-absent :absen="$absen->where('tanggal', $today)->first()->absenMasuk->where('keterangan', 'Terlambat')" title='Absen Masuk' classCard='permit-card'>
+    <x-cards.card-absent :absen="$absensi != null ? $absensi->absenMasuk->where('keterangan', 'Terlambat')->count() : '0'" title='Terlambat' classCard='permit-card'>
         Terlambat
     </x-cards.card-absent>
 
-    <x-cards.card-absent :absen="$absen->where('tanggal', $today)->first()->absenPulang->where('keterangan', 'Hadir')" title='Absen Pulang' classCard='present-card'>
+    <x-cards.card-absent :absen="$absensi != null ? $absensi->absenPulang->where('keterangan', 'Hadir')->count() : '0'" title='Absen Pulang' classCard='present-card'>
         Hadir
     </x-cards.card-absent>
 
-    <x-cards.card-absent :absen="$absen->where('tanggal', $today)->first()->absenPulang->where('keterangan', 'Izin')" title='Absen Pulang' classCard='late-card'>
+    <x-cards.card-absent :absen="$absensi != null ? $absensi->absenPulang->where('keterangan', 'Izin')->count() : '0'" title='Izin' classCard='late-card'>
         Izin
     </x-cards.card-absent>
 
-    <x-cards.card-absent :absen="$absen->where('tanggal', $today)->first()->absenPulang->where('keterangan', 'Terlambat')" title='Absen Pulang' classCard='permit-card'>
+    <x-cards.card-absent :absen="$absensi != null ? $absensi->absenPulang->where('keterangan', 'Terlambat')->count() : '0'" title='Terlambat' classCard='permit-card'>
         Terlambat
     </x-cards.card-absent>
 
